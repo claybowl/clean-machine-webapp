@@ -14,30 +14,36 @@ export function AssessmentCTA() {
       <CardContent className="p-6">
         <div className="grid gap-6 md:grid-cols-2">
           <div className="space-y-4">
-            <h3 className="text-lg font-bold text-[#1A365D]">Why take the assessment?</h3>
+            <h3 className="text-lg font-bold text-[#1A365D] dark:text-white">Why take the assessment?</h3>
             <ul className="space-y-2">
               <li className="flex items-start">
                 <span className="mr-2 mt-1 text-[#FF7F00]">•</span>
-                <span>Identify AI opportunities specific to your business</span>
+                <span className="text-gray-700 dark:text-gray-200">
+                  Identify AI opportunities specific to your business
+                </span>
               </li>
               <li className="flex items-start">
                 <span className="mr-2 mt-1 text-[#FF7F00]">•</span>
-                <span>Receive a personalized implementation roadmap</span>
+                <span className="text-gray-700 dark:text-gray-200">Receive a personalized implementation roadmap</span>
               </li>
               <li className="flex items-start">
                 <span className="mr-2 mt-1 text-[#FF7F00]">•</span>
-                <span>Understand potential ROI and resource requirements</span>
+                <span className="text-gray-700 dark:text-gray-200">
+                  Understand potential ROI and resource requirements
+                </span>
               </li>
               <li className="flex items-start">
                 <span className="mr-2 mt-1 text-[#FF7F00]">•</span>
-                <span>Get expert recommendations tailored to your industry</span>
+                <span className="text-gray-700 dark:text-gray-200">
+                  Get expert recommendations tailored to your industry
+                </span>
               </li>
             </ul>
           </div>
           <div className="flex flex-col justify-between space-y-4">
             <div>
-              <h3 className="text-lg font-bold text-[#1A365D]">What you'll receive:</h3>
-              <p className="text-gray-500 mt-2">
+              <h3 className="text-lg font-bold text-[#1A365D] dark:text-white">What you'll receive:</h3>
+              <p className="text-gray-700 dark:text-gray-200 mt-2">
                 A comprehensive report with actionable insights and a clear path forward for AI integration in your
                 business.
               </p>

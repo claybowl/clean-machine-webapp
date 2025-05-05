@@ -40,11 +40,11 @@ body {
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
+    --background: 222 47% 11%;
     --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
+    --card: 222 47% 10%;
     --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
+    --popover: 222 47% 10%;
     --popover-foreground: 210 40% 98%;
     --primary: 217.2 91.2% 59.8%;
     --primary-foreground: 222.2 47.4% 11.2%;
@@ -59,6 +59,16 @@ body {
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 224.3 76.3% 48%;
+
+    /* Sidebar variables for dark mode */
+    --sidebar-background: 222 47% 10%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 210 40% 98%;
+    --sidebar-primary-foreground: 222.2 47.4% 11.2%;
+    --sidebar-accent: 217.2 32.6% 17.5%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 217.2 32.6% 17.5%;
+    --sidebar-ring: 224.3 76.3% 48%;
   }
 }
 
@@ -71,11 +81,14 @@ body {
   }
 }
 
-/* Replace the floatCloud animation with this vertical animation */
+/* Update the cloud and star animations for better performance */
+
+/* Replace the floatCloud animation with this optimized version */
 @keyframes floatCloud {
   0% {
     transform: translateY(-100%) translateX(0);
     opacity: 0;
+    will-change: transform, opacity;
   }
   10% {
     opacity: 0.9;
@@ -89,7 +102,7 @@ body {
   }
 }
 
-/* Update the floating-cloud class to match the new animation direction */
+/* Update the floating-cloud class for better performance */
 .floating-cloud {
   position: absolute;
   border-radius: 50%;
@@ -101,8 +114,10 @@ body {
   );
   filter: blur(8px);
   box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.8), 0 0 100px 60px rgba(255, 255, 255, 0.3);
-  animation: floatCloud 8s linear infinite; /* Faster animation - 8s instead of 30s+ */
+  animation: floatCloud 8s linear infinite;
   z-index: 1;
+  will-change: transform, opacity;
+  pointer-events: none;
 }
 
 .floating-cloud::before,
@@ -112,22 +127,103 @@ body {
   border-radius: 50%;
   background: radial-gradient(
     circle at center,
-    rgba(255, 255, 255, 0.9) 0%,
-    rgba(255, 255, 255, 0.6) 60%,
+    rgba(255, 255, 255, 0.7) 0%,
+    rgba(255, 255, 255, 0.5) 60%,
     rgba(255, 255, 255, 0) 100%
   );
 }
 
-.floating-cloud::before {
-  width: 80%;
-  height: 80%;
-  top: -30%;
-  left: 10%;
+/* Optimize shooting star animation */
+@keyframes shootingStar {
+  0% {
+    transform: translateX(0) translateY(0) rotate(45deg) scale(0);
+    opacity: 0;
+    will-change: transform, opacity;
+  }
+  5% {
+    transform: translateX(-5%) translateY(5%) rotate(45deg) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-120%) translateY(120%) rotate(45deg) scale(0.2);
+    opacity: 0;
+  }
 }
 
-.floating-cloud::after {
-  width: 70%;
-  height: 70%;
-  top: 20%;
-  left: -20%;
+.shooting-star {
+  position: absolute;
+  width: 60px;
+  height: 0.5px;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0));
+  border-radius: 50%;
+  filter: blur(0.5px);
+  box-shadow: 0 0 5px 1px rgba(255, 255, 255, 0.4);
+  opacity: 0;
+  z-index: 2;
+  animation: shootingStar 6s linear infinite;
+  transform-origin: right center;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+/* Add section divider styling */
+.section-divider {
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to right, transparent, rgba(0, 118, 255, 0.5), transparent);
+  margin: 2rem 0;
+}
+
+/* Card hover effects */
+.solution-card {
+  transition: all 0.3s ease;
+}
+
+.solution-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Testimonial card styling */
+.testimonial-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.testimonial-card::before {
+  content: '"';
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 5rem;
+  opacity: 0.1;
+  font-family: serif;
+}
+
+/* Add these new styles for the starry night effect */
+.dark body {
+  background-image: radial-gradient(1px 1px at 25px 25px, rgba(255, 255, 255, 0.15), transparent),
+    radial-gradient(1px 1px at 50px 50px, rgba(255, 255, 255, 0.2), transparent),
+    radial-gradient(1px 1px at 125px 125px, rgba(255, 255, 255, 0.15), transparent),
+    radial-gradient(1.5px 1.5px at 200px 200px, rgba(255, 255, 255, 0.1), transparent);
+  background-size: 200px 200px;
+  background-attachment: fixed;
+}
+
+/* Enhance the shooting star animation for dark mode */
+.dark .shooting-star {
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0));
+  box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.8);
+  opacity: 0;
+}
+
+/* Enhance the floating cloud for dark mode */
+.dark .floating-cloud {
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.05) 60%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  filter: blur(8px);
+  box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.05), 0 0 50px 30px rgba(255, 255, 255, 0.02);
 }

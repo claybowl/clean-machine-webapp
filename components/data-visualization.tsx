@@ -182,10 +182,11 @@ export default function DataVisualization() {
       particles.push(new Particle(Math.random() * width, height + Math.random() * 50 + i * 20, "floater"))
     }
 
-    // Draw spacecraft/rocket
-    const drawSpacecraft = (x: number, y: number, size: number, time: number) => {
-      const rocketHeight = size * 3
-      const rocketWidth = size * 1.5
+    // Draw UFO with programmer inside
+    const drawUFO = (x: number, y: number, size: number, time: number) => {
+      const ufoWidth = size * 4
+      const ufoHeight = size * 2
+      const domeHeight = size * 1.2
 
       // Save context
       ctx.save()
@@ -194,85 +195,153 @@ export default function DataVisualization() {
       // Add slight oscillation
       ctx.rotate(Math.sin(time * 0.5) * 0.05)
 
-      // Rocket body
-      const gradient = ctx.createLinearGradient(0, -rocketHeight / 2, 0, rocketHeight / 2)
-      gradient.addColorStop(0, "#FFFFFF")
-      gradient.addColorStop(0.5, "#DDDDDD")
-      gradient.addColorStop(1, "#AAAAAA")
+      // Draw wormhole above the UFO
+      const wormholeY = -height * 0.3
+      const wormholeSize = size * 6
+      const wormholeGradient = ctx.createRadialGradient(0, wormholeY, 0, 0, wormholeY, wormholeSize)
+      wormholeGradient.addColorStop(0, "rgba(100, 200, 255, 0.8)")
+      wormholeGradient.addColorStop(0.3, "rgba(50, 100, 255, 0.6)")
+      wormholeGradient.addColorStop(0.6, "rgba(100, 50, 255, 0.4)")
+      wormholeGradient.addColorStop(1, "rgba(0, 0, 0, 0)")
 
       ctx.beginPath()
-      ctx.moveTo(0, -rocketHeight / 2)
-      ctx.lineTo(rocketWidth / 2, rocketHeight / 4)
-      ctx.lineTo(rocketWidth / 2, rocketHeight / 2)
-      ctx.lineTo(-rocketWidth / 2, rocketHeight / 2)
-      ctx.lineTo(-rocketWidth / 2, rocketHeight / 4)
-      ctx.closePath()
-      ctx.fillStyle = gradient
+      ctx.arc(0, wormholeY, wormholeSize, 0, Math.PI * 2)
+      ctx.fillStyle = wormholeGradient
       ctx.fill()
-      ctx.strokeStyle = "#333333"
+
+      // Add swirling effect to wormhole
+      for (let i = 0; i < 3; i++) {
+        ctx.beginPath()
+        ctx.arc(0, wormholeY, wormholeSize * (0.3 + i * 0.2), 0 + time * (1 + i * 0.2), Math.PI + time * (1 + i * 0.2))
+        ctx.strokeStyle = `rgba(150, 200, 255, ${0.7 - i * 0.2})`
+        ctx.lineWidth = 2
+        ctx.stroke()
+      }
+
+      // Draw atmosphere the UFO is blasting through
+      const atmosphereGradient = ctx.createLinearGradient(0, -ufoHeight * 2, 0, ufoHeight * 3)
+      atmosphereGradient.addColorStop(0, "rgba(0, 0, 50, 0)")
+      atmosphereGradient.addColorStop(0.5, "rgba(50, 100, 200, 0.2)")
+      atmosphereGradient.addColorStop(1, "rgba(100, 200, 255, 0.1)")
+
+      ctx.beginPath()
+      ctx.fillStyle = atmosphereGradient
+      ctx.fillRect(-width / 2, -ufoHeight * 2, width, height)
+
+      // UFO body (saucer shape)
+      const bodyGradient = ctx.createLinearGradient(0, -ufoHeight / 2, 0, ufoHeight / 2)
+      bodyGradient.addColorStop(0, "#DDDDDD")
+      bodyGradient.addColorStop(0.5, "#AAAAAA")
+      bodyGradient.addColorStop(1, "#888888")
+
+      // Bottom part of saucer
+      ctx.beginPath()
+      ctx.ellipse(0, 0, ufoWidth / 2, ufoHeight / 2, 0, 0, Math.PI * 2)
+      ctx.fillStyle = bodyGradient
+      ctx.fill()
+      ctx.strokeStyle = "#666666"
       ctx.lineWidth = 1
       ctx.stroke()
 
-      // Rocket nose
+      // Top dome (transparent)
+      const domeGradient = ctx.createLinearGradient(0, -domeHeight, 0, 0)
+      domeGradient.addColorStop(0, "rgba(150, 200, 255, 0.8)")
+      domeGradient.addColorStop(1, "rgba(150, 200, 255, 0.4)")
+
       ctx.beginPath()
-      ctx.moveTo(-rocketWidth / 2, rocketHeight / 4)
-      ctx.lineTo(0, -rocketHeight / 2)
-      ctx.lineTo(rocketWidth / 2, rocketHeight / 4)
+      ctx.ellipse(0, -ufoHeight / 4, ufoWidth / 3, domeHeight, 0, Math.PI, 0, true)
+      ctx.fillStyle = domeGradient
+      ctx.fill()
+      ctx.strokeStyle = "#0076FF"
+      ctx.lineWidth = 1
+      ctx.stroke()
+
+      // Draw programmer inside the dome
+      drawProgrammer(0, -ufoHeight / 4, size * 0.6)
+
+      // Draw lights around the UFO
+      const lightCount = 8
+      for (let i = 0; i < lightCount; i++) {
+        const angle = (i / lightCount) * Math.PI * 2
+        const lightX = Math.cos(angle) * (ufoWidth / 2 - 5)
+        const lightY = Math.sin(angle) * (ufoHeight / 2 - 5)
+
+        const lightColor = i % 2 === 0 ? "#0076FF" : "#FF7F00"
+        const lightSize = (Math.sin(time * 5 + i) + 1) * 3 + 2
+
+        ctx.beginPath()
+        ctx.arc(lightX, lightY, lightSize, 0, Math.PI * 2)
+        ctx.fillStyle = lightColor
+        ctx.fill()
+      }
+
+      // UFO beam
+      const beamGradient = ctx.createLinearGradient(0, 0, 0, ufoHeight * 2)
+      beamGradient.addColorStop(0, "rgba(150, 200, 255, 0.8)")
+      beamGradient.addColorStop(1, "rgba(150, 200, 255, 0)")
+
+      ctx.beginPath()
+      ctx.moveTo(-ufoWidth / 4, 0)
+      ctx.lineTo(ufoWidth / 4, 0)
+      ctx.lineTo(ufoWidth / 2, ufoHeight * 2)
+      ctx.lineTo(-ufoWidth / 2, ufoHeight * 2)
       ctx.closePath()
-      ctx.fillStyle = accentBlue
-      ctx.fill()
-      ctx.stroke()
-
-      // Rocket fins
-      ctx.beginPath()
-      ctx.moveTo(-rocketWidth / 2, rocketHeight / 3)
-      ctx.lineTo(-rocketWidth, rocketHeight / 2)
-      ctx.lineTo(-rocketWidth / 2, rocketHeight / 2)
-      ctx.closePath()
-      ctx.fillStyle = gold
-      ctx.fill()
-      ctx.stroke()
-
-      ctx.beginPath()
-      ctx.moveTo(rocketWidth / 2, rocketHeight / 3)
-      ctx.lineTo(rocketWidth, rocketHeight / 2)
-      ctx.lineTo(rocketWidth / 2, rocketHeight / 2)
-      ctx.closePath()
-      ctx.fillStyle = gold
-      ctx.fill()
-      ctx.stroke()
-
-      // Rocket window
-      ctx.beginPath()
-      ctx.arc(0, 0, size / 3, 0, Math.PI * 2)
-      ctx.fillStyle = teal
-      ctx.fill()
-      ctx.strokeStyle = "#333333"
-      ctx.stroke()
-
-      // Rocket flame
-      const flameHeight = rocketHeight * (0.5 + Math.sin(time * 10) * 0.2)
-
-      const flameGradient = ctx.createLinearGradient(0, rocketHeight / 2, 0, rocketHeight / 2 + flameHeight)
-      flameGradient.addColorStop(0, "rgba(255, 255, 255, 0.9)")
-      flameGradient.addColorStop(0.3, "rgba(255, 200, 0, 0.8)")
-      flameGradient.addColorStop(0.8, "rgba(255, 100, 0, 0.4)")
-      flameGradient.addColorStop(1, "rgba(255, 50, 0, 0)")
-
-      ctx.beginPath()
-      ctx.moveTo(-rocketWidth / 4, rocketHeight / 2)
-      ctx.quadraticCurveTo(0, rocketHeight / 2 + flameHeight * 1.5, rocketWidth / 4, rocketHeight / 2)
-      ctx.fillStyle = flameGradient
+      ctx.fillStyle = beamGradient
       ctx.fill()
 
       // Restore context
       ctx.restore()
     }
 
+    // Draw programmer inside the UFO
+    const drawProgrammer = (x: number, y: number, size: number) => {
+      // Head
+      ctx.beginPath()
+      ctx.arc(x, y - size / 2, size / 3, 0, Math.PI * 2)
+      ctx.fillStyle = "#FFD8B4"
+      ctx.fill()
+      ctx.strokeStyle = "#000000"
+      ctx.lineWidth = 1
+      ctx.stroke()
+
+      // Eyes (glasses)
+      ctx.beginPath()
+      ctx.arc(x - size / 8, y - size / 2, size / 10, 0, Math.PI * 2)
+      ctx.arc(x + size / 8, y - size / 2, size / 10, 0, Math.PI * 2)
+      ctx.fillStyle = "#FFFFFF"
+      ctx.fill()
+      ctx.strokeStyle = "#000000"
+      ctx.lineWidth = 1
+      ctx.stroke()
+
+      // Laptop
+      ctx.beginPath()
+      ctx.rect(x - size / 2, y, size, size / 3)
+      ctx.fillStyle = "#333333"
+      ctx.fill()
+
+      // Screen
+      ctx.beginPath()
+      ctx.rect(x - size / 2 + size / 10, y + size / 20, size - size / 5, size / 5)
+      ctx.fillStyle = "#00FF00"
+      ctx.fill()
+
+      // Code on screen (simplified)
+      ctx.fillStyle = "#000000"
+      ctx.font = `${size / 10}px monospace`
+      ctx.fillText("while(true){code();}", x - size / 3, y + size / 6)
+    }
+
     // Draw floating text
     const drawText = () => {
       // Calculate vertical position with smooth oscillation
       const yOffset = Math.sin(time * 0.5) * 10
+
+      // Add text shadow for better readability
+      ctx.shadowColor = "rgba(0, 0, 0, 0.7)"
+      ctx.shadowBlur = 4
+      ctx.shadowOffsetX = 1
+      ctx.shadowOffsetY = 1
 
       // Draw main title
       ctx.font = "bold 24px Arial"
@@ -281,14 +350,20 @@ export default function DataVisualization() {
       ctx.fillText("TAKEOFF WITH CURVE AI SOLUTIONS", centerX, centerY - 60 + yOffset)
 
       // Draw subtitle
-      ctx.font = "18px Arial"
-      ctx.fillStyle = gold
+      ctx.font = "bold 18px Arial" // Added bold
+      ctx.fillStyle = "#2B9AFF" // Brighter blue
       ctx.fillText("THE ANTI-GRAVITY FOR BUSINESS", centerX, centerY - 30 + yOffset)
 
       // Draw tagline
-      ctx.font = "16px Arial"
-      ctx.fillStyle = teal
+      ctx.font = "bold 16px Arial" // Added bold
+      ctx.fillStyle = "#00FFFF" // Brighter teal
       ctx.fillText("BREAKAWAY WITH NO RESISTANCE", centerX, centerY + yOffset)
+
+      // Reset shadow
+      ctx.shadowColor = "transparent"
+      ctx.shadowBlur = 0
+      ctx.shadowOffsetX = 0
+      ctx.shadowOffsetY = 0
     }
 
     // Draw curved path
@@ -376,8 +451,11 @@ export default function DataVisualization() {
         particle.draw()
       })
 
-      // Draw spacecraft
-      drawSpacecraft(centerX, centerY + 50, 20, time)
+      // Replace this line in the animate function:
+      // drawSpacecraft(centerX, centerY + 50, 20, time);
+
+      // With:
+      drawUFO(centerX, centerY + 70, 20, time)
 
       // Draw text
       drawText()
@@ -409,13 +487,13 @@ export default function DataVisualization() {
   return (
     <canvas
       ref={canvasRef}
-      className="w-full h-full min-h-[332px] rounded-lg" // Adjusted to 15% smaller than previous 390px
+      className="w-full h-full min-h-[332px] rounded-lg"
       style={{
         background: "linear-gradient(135deg, #0A1929 0%, #000000 100%)",
         boxShadow: "0 10px 30px rgba(0, 0, 0, 0.5)",
-        border: "1px solid #D4AF37", // Gold border
-        transform: "scale(0.94)", // Reduced scale by 15%
-        margin: "3% auto", // Reduced margin to match smaller size
+        border: "1px solid #0076FF", // Changed from gold to blue to match banner
+        transform: "scale(0.94)",
+        margin: "3% auto",
       }}
     />
   )

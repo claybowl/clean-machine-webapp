@@ -1,9 +1,10 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { SkyBackground } from "@/components/sky-background"
 
 export function SolutionsHero() {
   return (
-    <div className="bg-gradient-to-r from-[#1A365D] to-[#0076FF] text-white py-24">
+    <SkyBackground className="bg-gradient-to-r from-[#1A365D] to-[#0076FF] text-white py-24">
       <div className="container">
         <div className="max-w-3xl">
           <h1 className="text-5xl font-bold mb-6">Custom AI Agent Infrastructure Solutions</h1>
@@ -21,6 +22,6 @@ export function SolutionsHero() {
           </div>
         </div>
       </div>
-    </div>
+    </SkyBackground>
   )
 }
