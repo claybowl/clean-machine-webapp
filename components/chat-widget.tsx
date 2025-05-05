@@ -3,12 +3,16 @@
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { MessageCircle, X } from "lucide-react"
+import CustomChat from "./custom-chat"
 
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false)
-  const [hasVisited, setHasVisited] = useState(true) // Default to true to prevent flash on hydration
+  const [hasVisited, setHasVisited] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
+    setIsMounted(true)
+
     // Check if this is the user's first visit
     const hasUserVisitedBefore = localStorage.getItem("hasVisitedBefore")
 
@@ -20,13 +24,14 @@ export default function ChatWidget() {
         localStorage.setItem("hasVisitedBefore", "true")
       }, 2000) // 2-second delay for better user experience
 
-      setHasVisited(false)
-
       return () => clearTimeout(timer)
     } else {
       setHasVisited(true)
     }
   }, [])
+
+  // Don't render anything until after client-side hydration
+  if (!isMounted) return null
 
   return (
     <div className="fixed bottom-6 right-6 z-50">
@@ -44,12 +49,7 @@ export default function ChatWidget() {
             </Button>
           </div>
           <div className="flex-1 overflow-hidden">
-            <iframe
-              src="https://claydonjon.app.n8n.cloud/webhook/226821eb-fb06-4837-a708-36d2166f5d29/chat"
-              className="w-full h-full border-0"
-              title="Clean Machine Chat"
-              allow="microphone"
-            />
+            <CustomChat />
           </div>
         </div>
       ) : (

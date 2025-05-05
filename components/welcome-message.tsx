@@ -6,8 +6,11 @@ import { Button } from "@/components/ui/button"
 
 export default function WelcomeMessage() {
   const [isVisible, setIsVisible] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
+    setIsMounted(true)
+
     // Check if this is the user's first visit
     const hasUserVisitedBefore = localStorage.getItem("hasVisitedBefore")
 
@@ -24,7 +27,8 @@ export default function WelcomeMessage() {
     }
   }, [])
 
-  if (!isVisible) return null
+  // Don't render anything until client-side hydration is complete
+  if (!isMounted || !isVisible) return null
 
   return (
     <div className="fixed bottom-24 right-6 z-40 max-w-xs bg-white rounded-lg shadow-lg p-4 border border-gray-200 animate-fade-in">
