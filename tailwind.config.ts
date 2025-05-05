@@ -53,25 +53,27 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        // Custom colors based on requirements
+        "navy-dark": "#0F2C52",
+        ivory: "#F8F4E3",
+        burgundy: "#5E1514",
+        forest: "#2C4C3B",
+        gold: "#BFA36F",
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
-      keyframes: {
-        "accordion-down": {
-          from: { height: "0" },
-          to: { height: "var(--radix-accordion-content-height)" },
-        },
-        "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
-        },
+      fontFamily: {
+        playfair: ["var(--font-playfair)"],
+        garamond: ["var(--font-garamond)"],
       },
-      animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
+      boxShadow: {
+        elegant: "0 4px 20px rgba(15, 44, 82, 0.08)",
+      },
+      backgroundImage: {
+        "texture-light": "url('/textures/subtle-paper.png')",
       },
     },
   },
