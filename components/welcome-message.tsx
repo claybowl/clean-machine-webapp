@@ -18,10 +18,10 @@ export default function WelcomeMessage() {
       // Show welcome message immediately
       setIsVisible(true)
 
-      // Hide after 5 seconds
+      // Hide after 7 seconds
       const timer = setTimeout(() => {
         setIsVisible(false)
-      }, 5000)
+      }, 7000)
 
       return () => clearTimeout(timer)
     }
@@ -40,9 +40,10 @@ export default function WelcomeMessage() {
       >
         <X className="h-4 w-4" />
       </Button>
-      <p className="text-sm font-medium mb-2">Welcome to Clean Machine!</p>
+      <p className="text-sm font-medium mb-2">Welcome to Clean Machine</p>
       <p className="text-xs text-muted-foreground">
-        Have questions about our services? Our chat assistant is here to help. Click the chat icon to get started.
+        Our Virtual Concierge is ready to assist with scheduling, service information, and more. Click the chat icon to
+        experience our white-glove digital service.
       </p>
     </div>
   )
