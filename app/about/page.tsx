@@ -29,14 +29,14 @@ export default function AboutPage() {
       role: "Founder & CTO",
       bio: "Machine Learning Engineering diploma holder with extreme creativity and dedication to development. AI visionary with extensive experience in building agent-based systems and trading infrastructure.",
       image: "/images/clayton_christian.png",
-      video: "/videos/clayton_christian.mp4",
+      video: "/videos/austin_belcheff.mp4",
     },
     {
       name: "Austin Belcheff",
       role: "Founder & CEO",
       bio: "Business graduate from Oklahoma State University and a creative force driving innovation within the company.",
       image: "/images/austin_belcheff.png",
-      video: "/videos/austin_belcheff.mp4",
+      video: "/videos/clayton_christian.mp4",
     },
   ]
 
@@ -111,7 +111,7 @@ export default function AboutPage() {
       description: "Onboarding of new clients and industry partners",
     },
     {
-      date: "May 9, 2025",
+      date: "May 9th, 2025",
       title: "AiPex Launch",
       description: "Official launch of our AI Platform Exchange",
     },
@@ -144,17 +144,14 @@ export default function AboutPage() {
           <div className="max-w-4xl mx-auto">
             <div className="relative pb-4">
               <div className="aspect-video w-full overflow-hidden rounded-xl shadow-xl bg-black">
-                <video
-                  className="w-full h-full object-contain"
-                  controls
-                  preload="auto"
-                  playsInline
-                  poster="/curve-ai-solutions-thumbnail.png"
-                  controlsList="nodownload"
-                >
-                  <source src="/videos/curve_ai_launch_v2.webm" type="video/webm" />
-                  Your browser does not support the video tag.
-                </video>
+                <iframe
+                  className="w-full h-full"
+                  src="https://www.youtube.com/embed/Y1cCkGsrXB4"
+                  title="Curve AI Solutions Video"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                ></iframe>
               </div>
               <div className="mt-6 text-center">
                 <h3 className="text-xl font-semibold text-[#1A365D]">See Our Vision in Action</h3>
