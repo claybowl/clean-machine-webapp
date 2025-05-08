@@ -144,8 +144,10 @@ export default function AboutPage() {
                 <video
                   className="w-full h-full object-contain"
                   controls
-                  preload="metadata"
+                  preload="auto"
+                  playsInline
                   poster="/curve-ai-solutions-thumbnail.png"
+                  controlsList="nodownload"
                 >
                   <source src="/videos/curve_ai_launch_v2.webm" type="video/webm" />
                   Your browser does not support the video tag.
