@@ -7,14 +7,14 @@ export const metadata: Metadata = {
 
 export default function CurveAIChatPage() {
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="max-w-5xl mx-auto">
+    <div className="flex flex-col min-h-screen">
+      <div className="px-4 py-8">
         <h1 className="text-3xl font-bold text-center mb-6">Curve AI Chat</h1>
         <p className="text-center text-muted-foreground mb-8">
           Ask our AI assistant any questions about AI implementation, solutions, or how Curve AI can help your business.
         </p>
 
-        <div className="w-full aspect-[16/9] md:aspect-[16/10] lg:aspect-auto lg:h-[800px] rounded-xl overflow-hidden border shadow-lg">
+        <div className="w-full aspect-[16/9] md:aspect-[16/10] lg:aspect-auto lg:h-[85vh] overflow-hidden">
           <iframe
             src="https://curveai-chat.vercel.app/"
             className="w-full h-full"

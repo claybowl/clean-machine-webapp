@@ -52,7 +52,7 @@ export function PromptDetail({ prompt }: PromptDetailProps) {
             {prompt.instructions && (
               <div>
                 <h3 className="font-bold mb-2">How to use:</h3>
-                <p className="text-gray-600">{prompt.instructions}</p>
+                <p className="text-gray-600 dark:text-gray-300">{prompt.instructions}</p>
               </div>
             )}
           </TabsContent>
@@ -63,11 +63,11 @@ export function PromptDetail({ prompt }: PromptDetailProps) {
                 <div className="flex items-center gap-4">
                   <div className="bg-gray-100 p-4 rounded-md">
                     <div className="text-3xl font-bold">{prompt.rating}</div>
-                    <div className="text-xs text-gray-500">Rating</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400">Rating</div>
                   </div>
                   <div className="flex-1">
                     <h3 className="font-bold">Analysis</h3>
-                    <p className="text-gray-600">{prompt.analysis || "No analysis available."}</p>
+                    <p className="text-gray-600 dark:text-gray-300">{prompt.analysis || "No analysis available."}</p>
                   </div>
                 </div>
               )}
@@ -77,7 +77,7 @@ export function PromptDetail({ prompt }: PromptDetailProps) {
                   <h3 className="font-bold mb-2">Strengths:</h3>
                   <ul className="list-disc pl-5 space-y-1">
                     {prompt.strengths.map((strength, index) => (
-                      <li key={index} className="text-gray-600">
+                      <li key={index} className="text-gray-600 dark:text-gray-300">
                         {strength}
                       </li>
                     ))}
@@ -90,7 +90,7 @@ export function PromptDetail({ prompt }: PromptDetailProps) {
                   <h3 className="font-bold mb-2">Areas for Improvement:</h3>
                   <ul className="list-disc pl-5 space-y-1">
                     {prompt.weaknesses.map((weakness, index) => (
-                      <li key={index} className="text-gray-600">
+                      <li key={index} className="text-gray-600 dark:text-gray-300">
                         {weakness}
                       </li>
                     ))}

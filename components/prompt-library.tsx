@@ -5,17 +5,22 @@ import { Input } from "@/components/ui/input"
 import { PromptCard } from "@/components/prompt-card"
 import { PromptDetail } from "@/components/prompt-detail"
 import { promptsData } from "@/data/prompts"
+import { agentPrompts } from "@/data/agent-prompts"
+import { tradingPrompts } from "@/data/trading-prompts"
 
 export function PromptLibrary() {
+  // Combine all prompt data
+  const allPrompts = [...promptsData, ...agentPrompts, ...tradingPrompts]
+
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("all")
-  const [selectedPrompt, setSelectedPrompt] = useState(promptsData[0])
+  const [selectedPrompt, setSelectedPrompt] = useState(allPrompts[0])
 
   // Get unique categories from prompts
-  const categories = ["all", ...new Set(promptsData.flatMap((prompt) => prompt.categories))]
+  const categories = ["all", ...new Set(allPrompts.flatMap((prompt) => prompt.categories))]
 
   // Filter prompts based on search query and selected category
-  const filteredPrompts = promptsData.filter((prompt) => {
+  const filteredPrompts = allPrompts.filter((prompt) => {
     const matchesSearch =
       prompt.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       prompt.description.toLowerCase().includes(searchQuery.toLowerCase())
@@ -30,14 +35,16 @@ export function PromptLibrary() {
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Left sidebar - Categories */}
         <div className="w-full lg:w-64 flex-shrink-0">
-          <h2 className="text-xl font-bold mb-4">Categories</h2>
+          <h2 className="text-xl font-bold mb-4 dark:text-white">Categories</h2>
           <div className="space-y-1">
             {categories.map((category) => (
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
                 className={`w-full text-left px-3 py-2 rounded-md transition-colors ${
-                  selectedCategory === category ? "bg-[#0076FF] text-white" : "hover:bg-gray-100"
+                  selectedCategory === category
+                    ? "bg-[#0076FF] text-white"
+                    : "hover:bg-gray-100 dark:hover:bg-gray-800 dark:text-gray-300"
                 }`}
               >
                 {category.charAt(0).toUpperCase() + category.slice(1)}
@@ -54,7 +61,7 @@ export function PromptLibrary() {
               placeholder="Search prompts..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full"
+              className="w-full dark:bg-gray-800 dark:text-white dark:border-gray-700"
             />
           </div>
 
@@ -69,7 +76,9 @@ export function PromptLibrary() {
                 />
               ))
             ) : (
-              <div className="text-center py-8 text-gray-500">No prompts found matching your search criteria.</div>
+              <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+                No prompts found matching your search criteria.
+              </div>
             )}
           </div>
         </div>

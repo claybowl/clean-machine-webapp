@@ -10,9 +10,10 @@ interface ToolPageProps {
 }
 
 export default async function ToolPage({ params }: ToolPageProps) {
-  const toolId = Number.parseInt(params.id)
-  const tool = await getToolById(toolId)
+  // Try to get the tool by ID
+  const tool = await getToolById(params.id)
 
+  // If no tool is found, show the 404 page
   if (!tool) {
     notFound()
   }

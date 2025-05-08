@@ -2,6 +2,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { SkyBackground } from "@/components/sky-background"
+import { VideoAvatar } from "@/components/video-avatar"
 import {
   Check,
   Calendar,
@@ -28,12 +29,14 @@ export default function AboutPage() {
       role: "Founder & CTO",
       bio: "Machine Learning Engineering diploma holder with extreme creativity and dedication to development. AI visionary with extensive experience in building agent-based systems and trading infrastructure.",
       image: "/images/clayton_christian.png",
+      video: "/videos/clayton_christian.mp4",
     },
     {
       name: "Austin Belcheff",
       role: "Founder & CEO",
       bio: "Business graduate from Oklahoma State University and a creative force driving innovation within the company.",
       image: "/images/austin_belcheff.png",
+      video: "/videos/austin_belcheff.mp4",
     },
   ]
 
@@ -348,12 +351,18 @@ export default function AboutPage() {
           <div className="flex flex-wrap justify-center gap-16 max-w-5xl mx-auto">
             {teamMembers.map((member, index) => (
               <div key={index} className="text-center max-w-xs">
-                <div className="mb-4 relative mx-auto w-48 h-48 rounded-full overflow-hidden">
-                  <img
-                    src={member.image || "/placeholder.svg"}
-                    alt={member.name}
-                    className="w-full h-full object-cover"
-                  />
+                <div className="mb-4 relative mx-auto w-48 h-48 overflow-hidden">
+                  {member.video ? (
+                    <VideoAvatar src={member.video} alt={member.name} className="w-48 h-48" />
+                  ) : (
+                    <div className="rounded-full overflow-hidden w-48 h-48">
+                      <img
+                        src={member.image || "/placeholder.svg"}
+                        alt={member.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  )}
                 </div>
                 <h3 className="text-xl font-bold text-[#1A365D]">{member.name}</h3>
                 <p className="text-[#0076FF] font-medium mb-2">{member.role}</p>

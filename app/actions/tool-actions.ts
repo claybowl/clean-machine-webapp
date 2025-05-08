@@ -2,6 +2,18 @@
 
 import { sql } from "@/lib/db"
 
+// Mock tools data (replace with actual data source later)
+const mockTools = [
+  { id: 1, name: "AgentPro", description: "AI Agent Development Tool" },
+  { id: 2, name: "DataViz360", description: "Data Visualization Suite" },
+  { id: 3, name: "TradeMasterAI", description: "Trading System Tool" },
+  { id: 4, name: "n8nAI", description: "n8n Integration Tool" },
+  { id: 5, name: "LowCodeAI", description: "Low-Code AI Development Tool" },
+  { id: 6, name: "AntiGravityAI", description: "Anti-Gravity Framework Component" },
+  { id: 7, name: "AIGovernance", description: "AI Governance and Transparency Tool" },
+  { id: 8, name: "IndustryAI", description: "Specialized Industry Solution" },
+]
+
 // Get all AI tools
 export async function getAllTools() {
   // Use tagged template literal syntax
@@ -101,17 +113,26 @@ export async function getToolsByCategory() {
 }
 
 // Get tool by ID
-export async function getToolById(id: number) {
-  // Use sql.query for parameterized queries
-  const tool = await sql.query(
-    `
-    SELECT * FROM ai_tools 
-    WHERE id = $1
-  `,
-    [id],
-  )
+export async function getToolById(id: string) {
+  try {
+    // Special case for 'prompts' which is a static page, not a dynamic tool
+    if (id === "prompts") {
+      return null
+    }
 
-  return tool[0]
+    // For numeric IDs, try to fetch the tool
+    const numericId = Number.parseInt(id, 10)
+    if (isNaN(numericId)) {
+      return null
+    }
+
+    // Simulate database query
+    const tool = mockTools.find((tool) => tool.id === numericId)
+    return tool || null
+  } catch (error) {
+    console.error("Error fetching tool by ID:", error)
+    return null
+  }
 }
 
 // Get recommended tools based on assessment results
