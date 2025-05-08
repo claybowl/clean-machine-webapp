@@ -140,17 +140,20 @@ export default function AboutPage() {
         <div className="container px-4 md:px-6 mx-auto">
           <div className="max-w-4xl mx-auto">
             <div className="relative pb-4">
-              <div className="aspect-video w-full overflow-hidden rounded-xl shadow-xl">
-                <iframe
-                  src="https://drive.google.com/file/d/1oxKMN2nOpztPgKohjCcKj-xa0Px-L4Kx/preview"
-                  allow="autoplay"
-                  className="w-full h-full"
-                  title="Curve AI Solutions Video"
-                ></iframe>
+              <div className="aspect-video w-full overflow-hidden rounded-xl shadow-xl bg-black">
+                <video
+                  className="w-full h-full object-contain"
+                  controls
+                  preload="metadata"
+                  poster="/curve-ai-solutions-thumbnail.png"
+                >
+                  <source src="/videos/curve_ai_launch_v2.webm" type="video/webm" />
+                  Your browser does not support the video tag.
+                </video>
               </div>
-              <div className="mt-4 text-center">
+              <div className="mt-6 text-center">
                 <h3 className="text-xl font-semibold text-[#1A365D]">See Our Vision in Action</h3>
-                <p className="text-gray-600">
+                <p className="text-gray-600 mt-2">
                   Watch how Curve AI Solutions is transforming businesses with accessible AI technology
                 </p>
               </div>
