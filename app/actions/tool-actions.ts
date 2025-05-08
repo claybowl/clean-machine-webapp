@@ -114,11 +114,6 @@ export async function getToolsByCategory() {
 
 // Get tool by ID
 export async function getToolById(id: number | string) {
-  // Special case for 'prompts' which is a static page, not a dynamic tool
-  if (id === "prompts") {
-    return null
-  }
-
   // Check if id is a valid number
   const parsedId = Number(id)
   if (isNaN(parsedId)) {

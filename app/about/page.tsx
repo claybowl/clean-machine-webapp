@@ -146,7 +146,7 @@ export default function AboutPage() {
               <div className="aspect-video w-full overflow-hidden rounded-xl shadow-xl bg-black">
                 <iframe
                   className="w-full h-full"
-                  src="https://www.youtube.com/embed/Y1cCkGsrXB4"
+                  src="https://www.youtube.com/embed/YGiQRGNc_U8"
                   title="Curve AI Solutions Video"
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

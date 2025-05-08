@@ -6,11 +6,6 @@ export async function middleware(request: NextRequest) {
   // Get the pathname of the request
   const path = request.nextUrl.pathname
 
-  // Special case for /solutions/prompts to prevent it from being treated as a dynamic route
-  if (path === "/solutions/prompts") {
-    return NextResponse.next()
-  }
-
   // Handle admin routes
   if (path.startsWith("/admin")) {
     try {
@@ -60,5 +55,5 @@ export async function middleware(request: NextRequest) {
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ["/admin/:path*", "/dashboard", "/solutions/prompts"],
+  matcher: ["/admin/:path*", "/dashboard"],
 }
