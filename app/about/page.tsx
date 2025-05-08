@@ -1,8 +1,19 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { SkyBackground } from "@/components/sky-background"
-import { Check, Calendar, ArrowRight, Users, Zap, Database, Bot, LineChart } from "lucide-react"
+import {
+  Check,
+  Calendar,
+  ArrowRight,
+  Users,
+  Zap,
+  Database,
+  MessageSquare,
+  Workflow,
+  BarChart4,
+  Clock,
+} from "lucide-react"
 
 export const metadata = {
   title: "About Curve AI Solutions",
@@ -50,6 +61,30 @@ export default function AboutPage() {
     },
   ]
 
+  // What we do
+  const whatWeDo = [
+    {
+      title: "Simplify Complex Processes",
+      description: "We translate technical concepts into everyday language that anyone can understand.",
+      icon: <MessageSquare className="h-6 w-6 text-[#0076FF]" />,
+    },
+    {
+      title: "Automate Data Analysis",
+      description: "We automate data analysis and integration that would otherwise take hours of manual work.",
+      icon: <BarChart4 className="h-6 w-6 text-[#0076FF]" />,
+    },
+    {
+      title: "Reduce Operational Costs",
+      description: "We streamline workflows and eliminate inefficiencies to reduce your operational costs.",
+      icon: <Workflow className="h-6 w-6 text-[#0076FF]" />,
+    },
+    {
+      title: "Free Up Your Time",
+      description: "We help you focus on what truly matters—growing your business and serving your customers.",
+      icon: <Clock className="h-6 w-6 text-[#0076FF]" />,
+    },
+  ]
+
   // Key milestones from the roadmap
   const keyMilestones = [
     {
@@ -94,11 +129,50 @@ export default function AboutPage() {
               About Curve AI Solutions
             </h1>
             <p className="max-w-[800px] mx-auto text-gray-100 md:text-xl mb-8">
-              We're building the future of AI agent infrastructure to help businesses break away with no resistance
+              Transforming Business Through Accessible AI
             </p>
           </div>
         </div>
       </SkyBackground>
+
+      {/* Video Section */}
+      <section className="py-16 bg-white">
+        <div className="container px-4 md:px-6 mx-auto">
+          <div className="max-w-4xl mx-auto">
+            <div className="relative pb-4">
+              <div className="aspect-video w-full overflow-hidden rounded-xl shadow-xl">
+                <iframe
+                  src="https://drive.google.com/file/d/1oxKMN2nOpztPgKohjCcKj-xa0Px-L4Kx/preview"
+                  allow="autoplay"
+                  className="w-full h-full"
+                  title="Curve AI Solutions Video"
+                ></iframe>
+              </div>
+              <div className="mt-4 text-center">
+                <h3 className="text-xl font-semibold text-[#1A365D]">See Our Vision in Action</h3>
+                <p className="text-gray-600">
+                  Watch how Curve AI Solutions is transforming businesses with accessible AI technology
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Introduction Section */}
+      <section className="py-16 bg-gray-50">
+        <div className="container px-4 md:px-6 mx-auto">
+          <div className="max-w-3xl mx-auto">
+            <div className="prose prose-lg mx-auto">
+              <p className="lead text-xl text-gray-700">
+                At Curve AI Solutions, we're not just another tech company. We're a team of innovators, problem-solvers,
+                and business enthusiasts who believe that artificial intelligence should be accessible, practical, and
+                valuable for businesses of all sizes—including yours.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Our Story Section */}
       <section className="py-16 bg-white">
@@ -107,121 +181,162 @@ export default function AboutPage() {
             <h2 className="text-3xl font-bold text-[#1A365D] mb-6 text-center">Our Story</h2>
             <div className="prose prose-lg mx-auto">
               <p>
-                Curve AI Solutions was founded with a clear vision: to create AI agent infrastructure that transforms
-                how businesses operate. We recognized that while large enterprises had access to sophisticated AI
-                solutions, small and medium-sized businesses were being left behind in the AI revolution.
+                Founded in Tulsa with a simple yet powerful vision: to demystify AI and make it work for real businesses
+                facing real challenges. We saw too many small business owners feeling left behind by the AI
+                revolution—either intimidated by the technical complexity or unsure how this technology could actually
+                improve their bottom line.
               </p>
               <p>
-                Our journey began with a simple question: "How can we make advanced AI accessible to businesses of all
-                sizes?" The answer was to build a comprehensive suite of AI agent tools that could be easily deployed,
-                managed, and scaled without requiring extensive technical expertise or massive budgets.
-              </p>
-              <p>
-                Today, we're on track to launch our groundbreaking AiGent® System in March 2025, followed by our AI
-                Platform Exchange (AiPex) in May 2025. These solutions will empower businesses to orchestrate AI agents,
-                manage databases efficiently, and access a marketplace of specialized AI solutions tailored to their
-                specific needs.
-              </p>
-              <p>
-                Based in Tulsa, Oklahoma, we're proud to be part of the growing tech ecosystem in the heartland of
-                America, bringing cutting-edge AI solutions to businesses across the country and beyond.
+                That's when we asked ourselves: What if AI could be both powerful AND approachable? What if we could
+                translate the complex world of artificial intelligence into solutions that any business owner could
+                understand, implement, and benefit from immediately?
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Our Products Section */}
+      {/* What We Do Section */}
       <section className="py-16 bg-gray-50">
         <div className="container px-4 md:px-6 mx-auto">
-          <h2 className="text-3xl font-bold text-[#1A365D] mb-12 text-center">Our Products</h2>
+          <h2 className="text-3xl font-bold text-[#1A365D] mb-6 text-center">What We Do</h2>
+          <div className="max-w-3xl mx-auto mb-12">
+            <p className="text-lg text-center text-gray-700">
+              We create custom AI chatbots and workflow solutions (we call them Agentic AI Solutions) that handle the
+              mundane, repetitive tasks consuming your valuable time. Our CurveAI technology doesn't just process
+              data—it understands context, learns your business needs, and communicates with a personality tailored to
+              your company culture.
+            </p>
+          </div>
 
-          <div className="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
-            <Card className="border-2 border-[#0076FF]/10 hover:border-[#0076FF] transition-all">
-              <CardHeader className="pb-4">
-                <div className="w-12 h-12 rounded-lg bg-[#0076FF]/10 flex items-center justify-center mb-4">
-                  <Bot className="h-6 w-6 text-[#0076FF]" />
-                </div>
-                <CardTitle className="text-2xl">AiGent® System</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-600 mb-6">
-                  Our proprietary AI orchestration platform that includes databases, agent crew management, and a
-                  message bus for seamless communication between AI components.
-                </p>
-                <h4 className="font-bold text-[#1A365D] mb-2">Key Features:</h4>
-                <ul className="space-y-2">
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-[#0076FF] flex-shrink-0 mt-0.5 mr-2" />
-                    <span>Lead Supervisor Orchestration Agent</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-[#0076FF] flex-shrink-0 mt-0.5 mr-2" />
-                    <span>Agent Crew Management</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-[#0076FF] flex-shrink-0 mt-0.5 mr-2" />
-                    <span>Message Bus for Inter-Agent Communication</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-[#0076FF] flex-shrink-0 mt-0.5 mr-2" />
-                    <span>Advanced Database Integration</span>
-                  </li>
-                </ul>
-                <div className="mt-6">
-                  <div className="flex items-center text-sm text-gray-500">
-                    <Calendar className="h-4 w-4 mr-1" />
-                    <span>Launch Date: March 29, 2025</span>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-5xl mx-auto">
+            {whatWeDo.map((item, index) => (
+              <Card key={index} className="border-0 bg-white shadow-md">
+                <CardContent className="p-6 text-center">
+                  <div className="w-12 h-12 rounded-full bg-[#0076FF]/10 flex items-center justify-center mx-auto mb-4">
+                    {item.icon}
                   </div>
-                </div>
-              </CardContent>
-            </Card>
+                  <h3 className="text-xl font-bold text-[#1A365D] mb-2">{item.title}</h3>
+                  <p className="text-gray-600">{item.description}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
 
-            <Card className="border-2 border-[#0076FF]/10 hover:border-[#0076FF] transition-all">
-              <CardHeader className="pb-4">
-                <div className="w-12 h-12 rounded-lg bg-[#0076FF]/10 flex items-center justify-center mb-4">
-                  <LineChart className="h-6 w-6 text-[#0076FF]" />
-                </div>
-                <CardTitle className="text-2xl">AiPex Platform</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-600 mb-6">
-                  Our AI Platform Exchange (AiPex) connects businesses with specialized AI solutions, creating a
-                  marketplace for industry-specific tools and capabilities.
-                </p>
-                <h4 className="font-bold text-[#1A365D] mb-2">Key Features:</h4>
-                <ul className="space-y-2">
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-[#0076FF] flex-shrink-0 mt-0.5 mr-2" />
-                    <span>AI Solution Marketplace</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-[#0076FF] flex-shrink-0 mt-0.5 mr-2" />
-                    <span>Real Money Trial Accounts</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-[#0076FF] flex-shrink-0 mt-0.5 mr-2" />
-                    <span>Industry-Specific AI Tools</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-[#0076FF] flex-shrink-0 mt-0.5 mr-2" />
-                    <span>Stock Market Integration</span>
-                  </li>
-                </ul>
-                <div className="mt-6">
-                  <div className="flex items-center text-sm text-gray-500">
-                    <Calendar className="h-4 w-4 mr-1" />
-                    <span>Launch Date: May 9, 2025</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+      {/* Why Choose Us Section */}
+      <section className="py-16 bg-white">
+        <div className="container px-4 md:px-6 mx-auto">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-3xl font-bold text-[#1A365D] mb-6 text-center">Why Small Business Owners Choose Us</h2>
+            <div className="prose prose-lg mx-auto">
+              <p>
+                Unlike large corporate AI solutions that require teams of engineers to implement, or basic chatbots that
+                can only follow simple scripts, our technology strikes the perfect balance: sophisticated enough to
+                deliver real results, simple enough that you don't need a computer science degree to use it.
+              </p>
+              <p>When you work with Curve AI Solutions, you get:</p>
+              <ul>
+                <li>Practical AI tools designed for your specific business challenges—not theoretical capabilities</li>
+                <li>Solutions that speak human—no technical jargon, no endless documentation</li>
+                <li>
+                  Measurable results with clear ROI—we're about improving your business, not just showcasing fancy
+                  technology
+                </li>
+                <li>
+                  A partner who understands your business needs and translates them into effective AI implementations
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Our Approach Section */}
+      <section className="py-16 bg-gray-50">
+        <div className="container px-4 md:px-6 mx-auto">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-3xl font-bold text-[#1A365D] mb-6 text-center">Our Approach</h2>
+            <div className="prose prose-lg mx-auto">
+              <p>
+                We believe in starting with your business problems, not with technology. Our process is straightforward:
+              </p>
+              <ol>
+                <li>Listen to understand your specific challenges and goals</li>
+                <li>Design a customized AI solution that addresses your unique needs</li>
+                <li>Implement the technology seamlessly into your existing workflows</li>
+                <li>Measure the results to ensure you're getting real value</li>
+                <li>Refine the solution based on feedback and changing business needs</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* The Magic Behind Section */}
+      <section className="py-16 bg-white">
+        <div className="container px-4 md:px-6 mx-auto">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-3xl font-bold text-[#1A365D] mb-6 text-center">The Magic Behind Our Solutions</h2>
+            <div className="prose prose-lg mx-auto">
+              <p>
+                While we keep the technical talk to a minimum when working with clients, rest assured that under the
+                hood, our solutions leverage cutting-edge AI frameworks and advanced software engineering. Our team
+                brings expertise in machine learning, natural language processing, and data integration—all so you don't
+                have to.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Community Commitment Section */}
+      <section className="py-16 bg-gray-50">
+        <div className="container px-4 md:px-6 mx-auto">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-3xl font-bold text-[#1A365D] mb-6 text-center">Community Commitment</h2>
+            <div className="prose prose-lg mx-auto">
+              <p>
+                We're deeply invested in the Tulsa business community and beyond. Through our AI Literacy Program, we're
+                helping local business leaders, professionals, and interested parties understand and leverage AI
+                technologies. Our seminars, online content, and collaborations with local businesses bring AI education
+                closer to where people live and work.
+              </p>
+              <p>
+                By building strategic partnerships with other tech companies, educational institutions, and industry
+                leaders, we're creating an ecosystem where businesses of all sizes can thrive in the digital age.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* What Sets Us Apart Section */}
+      <section className="py-16 bg-white">
+        <div className="container px-4 md:px-6 mx-auto">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-3xl font-bold text-[#1A365D] mb-6 text-center">What Sets Us Apart</h2>
+            <div className="prose prose-lg mx-auto">
+              <p>
+                The difference is in our philosophy: we believe AI should work for you, not the other way around. Many
+                AI companies make you adapt to their technology; we adapt our technology to fit your business.
+              </p>
+              <p>
+                Our solutions don't require you to learn new systems, hire technical staff, or completely overhaul your
+                operations. Instead, we meet you where you are and enhance what you're already doing.
+              </p>
+              <p>
+                And unlike impersonal chatbots or generic AI tools, our solutions come with personalities that reflect
+                your brand and create engaging experiences for both your team and your customers.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Our Team Section */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-gray-50">
         <div className="container px-4 md:px-6 mx-auto">
           <h2 className="text-3xl font-bold text-[#1A365D] mb-12 text-center">Meet Our Team</h2>
 
@@ -245,7 +360,7 @@ export default function AboutPage() {
       </section>
 
       {/* Our Values Section */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-white">
         <div className="container px-4 md:px-6 mx-auto">
           <h2 className="text-3xl font-bold text-[#1A365D] mb-12 text-center">Our Core Values</h2>
 
@@ -261,6 +376,32 @@ export default function AboutPage() {
                 </CardContent>
               </Card>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Ready to Transform Section */}
+      <section className="py-16 bg-gray-50">
+        <div className="container px-4 md:px-6 mx-auto">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-3xl font-bold text-[#1A365D] mb-6 text-center">Ready to Transform Your Business?</h2>
+            <div className="prose prose-lg mx-auto">
+              <p>
+                Imagine significantly reducing your workload, automating data analysis, and integrating information
+                across your systems—all while maintaining the human touch that makes your business special.
+              </p>
+              <p>That's not just a dream; it's what we deliver every day to businesses like yours.</p>
+              <p>
+                Whether you're looking to streamline customer service, automate administrative tasks, or gain insights
+                from your business data without the headache, we have the expertise, tools, and approach to make it
+                happen.
+              </p>
+              <p>
+                Let's take the first step together toward a more efficient, productive, and profitable future for your
+                business. The AI revolution doesn't have to be complicated or confusing—with Curve AI Solutions as your
+                partner, it can be the competitive advantage you've been looking for.
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -296,14 +437,16 @@ export default function AboutPage() {
       <SkyBackground className="py-16 bg-gradient-to-b from-[#1A365D] to-[#0076FF] text-white">
         <div className="container px-4 md:px-6 mx-auto">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-6">Join Our Journey</h2>
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-6">Connect With Us</h2>
             <p className="mb-8 text-xl text-gray-100">
-              Support our mission to transform businesses with AI agent infrastructure
+              Take the first step toward transforming your business with AI that works for you, not against you.
+              Schedule a consultation today, and let's explore how Curve AI Solutions can address your specific business
+              challenges with practical, effective AI tools.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Button size="lg" className="bg-[#FF7F00] hover:bg-[#FF7F00]/90 text-white" asChild>
-                <Link href="/fundraising">
-                  Support Our Campaign
+                <Link href="/consultation">
+                  Schedule a Consultation
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
