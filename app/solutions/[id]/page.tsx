@@ -18,12 +18,28 @@ export default async function ToolPage({ params }: ToolPageProps) {
     notFound()
   }
 
+  // Default values for properties that might be missing
+  const toolName = tool.name || "AI Tool"
+  const toolDescription = tool.description || "An advanced AI solution for your business needs."
+  const apiEndpoint = tool.api_endpoint || ""
+  const updatedAt = tool.updated_at ? new Date(tool.updated_at) : new Date()
+
+  // Safely get API pathname
+  let apiPathname = "N/A"
+  if (apiEndpoint) {
+    try {
+      apiPathname = new URL(apiEndpoint).pathname
+    } catch (error) {
+      apiPathname = "N/A"
+    }
+  }
+
   return (
     <div className="min-h-screen">
       <div className="bg-gradient-to-r from-[#1A365D] to-[#0076FF] text-white py-16">
         <div className="container">
-          <h1 className="text-4xl font-bold mb-4">{tool.name}</h1>
-          <p className="text-xl max-w-2xl">{tool.description}</p>
+          <h1 className="text-4xl font-bold mb-4">{toolName}</h1>
+          <p className="text-xl max-w-2xl">{toolDescription}</p>
         </div>
       </div>
 
@@ -33,7 +49,7 @@ export default async function ToolPage({ params }: ToolPageProps) {
             <section>
               <h2 className="text-2xl font-bold text-[#1A365D] mb-4">Overview</h2>
               <p className="text-gray-600">
-                {tool.name} is a powerful solution designed to help businesses streamline their AI implementation and
+                {toolName} is a powerful solution designed to help businesses streamline their AI implementation and
                 maximize the value of their data and processes. With its intuitive interface and powerful capabilities,
                 it enables organizations to quickly deploy AI solutions without extensive technical expertise.
               </p>
@@ -122,12 +138,12 @@ export default async function ToolPage({ params }: ToolPageProps) {
 
           <div>
             <div className="bg-gray-50 p-6 rounded-lg sticky top-24">
-              <h2 className="text-xl font-bold text-[#1A365D] mb-4">Interested in {tool.name}?</h2>
+              <h2 className="text-xl font-bold text-[#1A365D] mb-4">Interested in {toolName}?</h2>
               <p className="text-gray-600 mb-6">
-                Schedule a demo to see how {tool.name} can transform your business operations.
+                Schedule a demo to see how {toolName} can transform your business operations.
               </p>
               <Button asChild className="w-full bg-[#0076FF] hover:bg-[#0076FF]/90 text-white mb-4">
-                <Link href="/contact">Schedule a Demo</Link>
+                <Link href="/consultation">Schedule a Demo</Link>
               </Button>
               <Button asChild variant="outline" className="w-full">
                 <Link href="/assessments/new">Take the AI Readiness Assessment</Link>
@@ -138,11 +154,11 @@ export default async function ToolPage({ params }: ToolPageProps) {
                 <ul className="space-y-2 text-sm">
                   <li className="flex justify-between">
                     <span className="text-gray-600">API Endpoint:</span>
-                    <span className="font-mono">{tool.api_endpoint ? new URL(tool.api_endpoint).pathname : "N/A"}</span>
+                    <span className="font-mono">{apiPathname}</span>
                   </li>
                   <li className="flex justify-between">
                     <span className="text-gray-600">Last Updated:</span>
-                    <span>{new Date(tool.updated_at).toLocaleDateString()}</span>
+                    <span>{updatedAt.toLocaleDateString()}</span>
                   </li>
                 </ul>
               </div>

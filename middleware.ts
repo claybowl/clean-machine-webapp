@@ -14,30 +14,44 @@ export async function middleware(request: NextRequest) {
 
   // Handle admin routes
   if (path.startsWith("/admin")) {
-    const token = await getToken({
-      req: request,
-      secret: process.env.NEXTAUTH_SECRET,
-    })
+    try {
+      const token = await getToken({
+        req: request,
+        secret: process.env.NEXTAUTH_SECRET,
+      })
 
-    // Check if user is authenticated and is an admin
-    if (!token || token.role !== "admin") {
+      // Check if user is authenticated and is an admin
+      if (!token || token.role !== "admin") {
+        const url = new URL("/login", request.url)
+        url.searchParams.set("callbackUrl", encodeURI(request.url))
+        return NextResponse.redirect(url)
+      }
+    } catch (error) {
+      console.error("Error in middleware:", error)
+      // If there's an error, redirect to login as a fallback
       const url = new URL("/login", request.url)
-      url.searchParams.set("callbackUrl", encodeURI(request.url))
       return NextResponse.redirect(url)
     }
   }
 
   // Handle dashboard routes
   if (path === "/dashboard") {
-    const token = await getToken({
-      req: request,
-      secret: process.env.NEXTAUTH_SECRET,
-    })
+    try {
+      const token = await getToken({
+        req: request,
+        secret: process.env.NEXTAUTH_SECRET,
+      })
 
-    // Check if user is authenticated
-    if (!token) {
+      // Check if user is authenticated
+      if (!token) {
+        const url = new URL("/login", request.url)
+        url.searchParams.set("callbackUrl", encodeURI(request.url))
+        return NextResponse.redirect(url)
+      }
+    } catch (error) {
+      console.error("Error in middleware:", error)
+      // If there's an error, redirect to login as a fallback
       const url = new URL("/login", request.url)
-      url.searchParams.set("callbackUrl", encodeURI(request.url))
       return NextResponse.redirect(url)
     }
   }
