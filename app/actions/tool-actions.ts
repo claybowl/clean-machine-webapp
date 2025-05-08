@@ -114,25 +114,22 @@ export async function getToolsByCategory() {
 
 // Get tool by ID
 export async function getToolById(id: number | string) {
+  // Special case for 'prompts' which is a static page, not a dynamic tool
+  if (id === "prompts") {
+    return null
+  }
+
   // Check if id is a valid number
   const parsedId = Number(id)
-
   if (isNaN(parsedId)) {
     // Return null for non-numeric IDs
     return null
   }
 
   try {
-    // Use sql.query for parameterized queries
-    const tools = await sql.query(
-      `
-      SELECT * FROM ai_tools 
-      WHERE id = $1
-    `,
-      [parsedId],
-    )
-
-    return tools && tools.length > 0 ? tools[0] : null
+    // Use parameterized query
+    const result = await sql`SELECT * FROM ai_tools WHERE id = ${parsedId}`
+    return result && result.length > 0 ? result[0] : null
   } catch (error) {
     console.error("Error fetching tool by ID:", error)
     return null
@@ -149,7 +146,6 @@ export async function getRecommendedTools(assessmentId: number) {
       ORDER BY RANDOM() 
       LIMIT 3
     `
-
     return tools
   } catch (error) {
     console.error("Error fetching recommended tools:", error)
