@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { sql } from "@/lib/db"
+import { getNeonClient } from "@/lib/db"
 import { hash } from "bcryptjs"
 
 export async function POST(request: Request) {
@@ -25,6 +25,9 @@ export async function POST(request: Request) {
 
     // Hash password
     const passwordHash = await hash(password, 10)
+
+    // Get SQL client at runtime
+    const sql = getNeonClient()
 
     // Create admin user
     const result = await sql`
