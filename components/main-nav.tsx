@@ -7,6 +7,7 @@ import { Menu, X, LogOut } from "lucide-react"
 import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { DatabaseStatusIndicator } from "@/components/database-status-indicator"
 
 export function MainNav() {
   const router = useRouter()
@@ -42,6 +43,7 @@ export function MainNav() {
     { name: "Assessments", href: "/assessments" },
     { name: "Prompts", href: "/solutions/prompts" },
     { name: "AiPex Platform", href: "/aipex-platform-prototype" },
+    { name: "AI Assistant", href: "/ai-assistant" },
     { name: "Curve AI Chat", href: "/curve-ai-chat" },
     { name: "Fundraising", href: "/fundraising" },
     { name: "About", href: "/about" },
@@ -93,6 +95,7 @@ export function MainNav() {
           ))}
         </nav>
         <div className="ml-auto md:ml-6 flex items-center gap-4">
+          <DatabaseStatusIndicator />
           <ThemeToggle />
           <div className="hidden md:flex gap-4">
             {isLoggedIn ? (

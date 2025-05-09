@@ -1,42 +1,65 @@
-// A safe version of the database utility that won't throw errors in preview environments
+import { getNeonClient } from "./db"
 
-export async function safeQuery(queryFn: () => Promise<any>, fallback: any) {
-  // In preview mode or when DATABASE_URL is not available, always use fallback
-  if (!process.env.DATABASE_URL || process.env.VERCEL_ENV === "preview") {
-    console.log("Using fallback data (preview mode or no DATABASE_URL)")
-    return fallback
-  }
-
+// Safe database query function that handles errors gracefully
+export async function safeQuery(query: string, params: any[] = []) {
   try {
-    // Add a timeout to the database query
-    const timeoutPromise = new Promise((_, reject) =>
-      setTimeout(() => reject(new Error("Database query timeout")), 3000),
-    )
-
-    // Race the database query against the timeout
-    const result = await Promise.race([queryFn(), timeoutPromise])
-    return result
+    const sql = getNeonClient()
+    // Use tagged template literal to safely pass parameters
+    return await sql(query, params)
   } catch (error) {
-    console.error("Safe database query error:", error)
-    return fallback
+    console.error("Database query error:", error)
+    return []
   }
 }
 
-// Function to test database connection safely
-export async function testConnectionSafe() {
-  if (!process.env.DATABASE_URL || process.env.VERCEL_ENV === "preview") {
-    return { connected: false, message: "Preview mode or no DATABASE_URL" }
-  }
-
+// Get a user by ID
+export async function getUserById(id: string) {
   try {
-    // Import neon only if we're going to use it
-    const { neon } = await import("@neondatabase/serverless")
-    const sql = neon(process.env.DATABASE_URL)
-
-    const result = await sql`SELECT 1 as connection_test`
-    return { connected: true, result }
+    const sql = getNeonClient()
+    const result = await sql`SELECT * FROM users WHERE id = ${id}`
+    return result[0] || null
   } catch (error) {
-    console.error("Database connection test failed:", error)
-    return { connected: false, error }
+    console.error("Error getting user by ID:", error)
+    return null
+  }
+}
+
+// Get a user by email
+export async function getUserByEmail(email: string) {
+  try {
+    const sql = getNeonClient()
+    const result = await sql`SELECT * FROM users WHERE email = ${email}`
+    return result[0] || null
+  } catch (error) {
+    console.error("Error getting user by email:", error)
+    return null
+  }
+}
+
+// Get an admin by username
+export async function getAdminByUsername(username: string) {
+  try {
+    const sql = getNeonClient()
+    const result = await sql`SELECT * FROM admins WHERE username = ${username}`
+    return result[0] || null
+  } catch (error) {
+    console.error("Error getting admin by username:", error)
+    return null
+  }
+}
+
+// Create a new user
+export async function createUser(userData: any) {
+  try {
+    const sql = getNeonClient()
+    const result = await sql`
+      INSERT INTO users (name, email, password)
+      VALUES (${userData.name}, ${userData.email}, ${userData.password})
+      RETURNING id, name, email
+    `
+    return result[0] || null
+  } catch (error) {
+    console.error("Error creating user:", error)
+    return null
   }
 }

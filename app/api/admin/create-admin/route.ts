@@ -1,49 +1,44 @@
 import { NextResponse } from "next/server"
-import { sql } from "@/lib/db"
-import { hash } from "bcryptjs"
+import { getNeonClient } from "@/lib/db"
+import bcrypt from "bcryptjs"
 
 export async function POST(request: Request) {
   try {
-    // This should be a protected route that only allows creation of admin users
-    // by existing admins or during initial setup
-    const { email, password, firstName, lastName } = await request.json()
+    const { username, password, email } = await request.json()
 
-    // Validate input
-    if (!email || !password || !firstName || !lastName) {
-      return NextResponse.json({ message: "Missing required fields" }, { status: 400 })
+    // Get the SQL client at runtime
+    const sql = getNeonClient()
+
+    // Check if admin already exists
+    const existingAdmin = await sql`
+      SELECT * FROM admins WHERE username = ${username} OR email = ${email}
+    `
+
+    if (existingAdmin.length > 0) {
+      return NextResponse.json({ error: "Admin with this username or email already exists" }, { status: 400 })
     }
 
-    // Hash password
-    const passwordHash = await hash(password, 10)
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10)
 
-    // Create admin user
+    // Insert the new admin
     const result = await sql`
-      INSERT INTO users (
-        email, 
-        password_hash, 
-        first_name, 
-        last_name, 
-        company_name, 
-        role
-      )
-      VALUES (
-        ${email}, 
-        ${passwordHash}, 
-        ${firstName}, 
-        ${lastName}, 
-        'Curve AI Solutions', 
-        'admin'
-      )
-      RETURNING id
+      INSERT INTO admins (username, password, email, role)
+      VALUES (${username}, ${hashedPassword}, ${email}, 'admin')
+      RETURNING id, username, email, role
     `
 
     return NextResponse.json({
-      success: true,
-      message: "Admin user created successfully",
-      userId: result[0].id,
+      message: "Admin created successfully",
+      admin: {
+        id: result[0].id,
+        username: result[0].username,
+        email: result[0].email,
+        role: result[0].role,
+      },
     })
   } catch (error) {
-    console.error("Error creating admin user:", error)
-    return NextResponse.json({ message: "Failed to create admin user" }, { status: 500 })
+    console.error("Error creating admin:", error)
+    return NextResponse.json({ error: "Failed to create admin" }, { status: 500 })
   }
 }
