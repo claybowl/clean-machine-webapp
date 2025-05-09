@@ -69,7 +69,7 @@ export default function FundraisingPage() {
         "All Business rewards",
         "Full AI readiness assessment",
         "2 custom AI agent solutions",
-        "6 months of technical support",
+        "2 years of customer service",
         "Your logo on our partner page",
         "Access to Curve Ai's LLM Chatbot featuring Cutting Edge Models",
       ],

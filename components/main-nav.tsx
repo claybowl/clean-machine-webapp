@@ -41,7 +41,7 @@ export function MainNav() {
     { name: "Solutions", href: "/solutions" },
     { name: "Assessments", href: "/assessments" },
     { name: "Prompts", href: "/solutions/prompts" },
-    { name: "AIPex Platform Prototype", href: "/aipex-platform-prototype" },
+    { name: "AiPex Platform", href: "/aipex-platform-prototype" },
     { name: "Curve AI Chat", href: "/curve-ai-chat" },
     { name: "Fundraising", href: "/fundraising" },
     { name: "About", href: "/about" },

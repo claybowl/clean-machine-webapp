@@ -4,6 +4,16 @@ import { hash } from "bcryptjs"
 
 export async function POST(request: Request) {
   try {
+    // Check if database connection is available
+    if (!process.env.DATABASE_URL && !process.env.POSTGRES_URL) {
+      return NextResponse.json(
+        {
+          message: "Database connection not configured. Please set DATABASE_URL or POSTGRES_URL environment variable.",
+        },
+        { status: 500 },
+      )
+    }
+
     // This should be a protected route that only allows creation of admin users
     // by existing admins or during initial setup
     const { email, password, firstName, lastName } = await request.json()

@@ -1,5 +1,11 @@
 // A safe version of the database utility that won't throw errors in preview environments
 
+if (!process.env.DATABASE_URL && !process.env.POSTGRES_URL) {
+  console.error(
+    "WARNING: No database connection string found. Please set DATABASE_URL or POSTGRES_URL environment variable.",
+  )
+}
+
 export async function safeQuery(queryFn: () => Promise<any>, fallback: any) {
   // In preview mode or when DATABASE_URL is not available, always use fallback
   if (!process.env.DATABASE_URL || process.env.VERCEL_ENV === "preview") {
@@ -31,7 +37,7 @@ export async function testConnectionSafe() {
   try {
     // Import neon only if we're going to use it
     const { neon } = await import("@neondatabase/serverless")
-    const sql = neon(process.env.DATABASE_URL)
+    const sql = neon(process.env.DATABASE_URL || process.env.POSTGRES_URL || "")
 
     const result = await sql`SELECT 1 as connection_test`
     return { connected: true, result }

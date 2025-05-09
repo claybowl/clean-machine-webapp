@@ -1,7 +1,15 @@
+// Update the neon initialization to handle missing environment variables
+// Add a check at the beginning of the file to validate database connection
+if (!process.env.DATABASE_URL && !process.env.POSTGRES_URL) {
+  console.error(
+    "WARNING: No database connection string found. Please set DATABASE_URL or POSTGRES_URL environment variable.",
+  )
+}
+
 import { neon } from "@neondatabase/serverless"
 
 // Create a SQL client with the Neon serverless driver with better error handling
-export const sql = neon(process.env.DATABASE_URL!)
+export const sql = neon(process.env.DATABASE_URL || process.env.POSTGRES_URL || "")
 
 // Helper function for raw SQL queries with timeout and error handling
 export async function executeQuery(query: string, params: any[] = [], timeoutMs = 5000) {
