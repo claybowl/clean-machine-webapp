@@ -14,6 +14,17 @@ const EmbeddedChatWidget = () => {
 
   const toggleChat = () => {
     setIsOpen(!isOpen)
+
+    // If opening the chat, open in a new window/tab instead of an iframe
+    if (!isOpen) {
+      window.open(
+        "https://claydonjon.app.n8n.cloud/webhook/226821eb-fb06-4837-a708-36d2166f5d29/chat",
+        "CleanMachineChat",
+        "width=400,height=600,resizable=yes,scrollbars=yes",
+      )
+      // Keep the button in its original state since we're opening in a new window
+      setIsOpen(false)
+    }
   }
 
   // Don't render until client-side hydration is complete
@@ -21,28 +32,10 @@ const EmbeddedChatWidget = () => {
 
   return (
     <div className="chat-widget">
-      {!isOpen ? (
-        <button className="chat-toggle" onClick={toggleChat}>
-          <span className="chat-icon">💬</span>
-          <span>Chat with us</span>
-        </button>
-      ) : (
-        <div className="chat-container">
-          <div className="chat-header">
-            <h3>Clean Machine Virtual Concierge</h3>
-            <button className="close-button" onClick={toggleChat}>
-              ×
-            </button>
-          </div>
-          <iframe
-            src="https://claydonjon.app.n8n.cloud/webhook/226821eb-fb06-4837-a708-36d2166f5d29/chat"
-            className="chat-iframe"
-            title="Clean Machine Chat"
-            frameBorder="0"
-            allowTransparency={true}
-          />
-        </div>
-      )}
+      <button className="chat-toggle" onClick={toggleChat}>
+        <span className="chat-icon">💬</span>
+        <span>Chat with us</span>
+      </button>
     </div>
   )
 }
