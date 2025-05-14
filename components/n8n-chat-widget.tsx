@@ -1,15 +1,18 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useState, useEffect, useRef } from "react"
+import "../app/embedded-chat-widget.css"
 
-export default function ChatPage() {
-  const chatContainerRef = useRef<HTMLDivElement>(null)
+const N8nChatWidget = () => {
   const [isMounted, setIsMounted] = useState(false)
+  const chatContainerRef = useRef<HTMLDivElement>(null)
 
+  // Handle client-side rendering
   useEffect(() => {
     setIsMounted(true)
   }, [])
 
+  // Initialize chat when component mounts
   useEffect(() => {
     if (!isMounted || !chatContainerRef.current) return
 
@@ -20,7 +23,7 @@ export default function ChatPage() {
 
     // Create a container for the chat
     const chatDiv = document.createElement("div")
-    chatDiv.id = "n8n-chat-fullpage"
+    chatDiv.id = "n8n-chat"
     chatDiv.style.width = "100%"
     chatDiv.style.height = "100%"
     chatContainerRef.current.appendChild(chatDiv)
@@ -33,14 +36,13 @@ export default function ChatPage() {
       
       (async function() {
         createChat({
-          container: document.getElementById('n8n-chat-fullpage'),
-          mode: 'fullscreen',
+          container: document.getElementById('n8n-chat'),
           webhookUrl: 'https://claydonjon.app.n8n.cloud/webhook/226821eb-fb06-4837-a708-36d2166f5d29/chat',
           showWelcomeScreen: false,
           loadPreviousSession: true,
           metadata: {
             sessionId: '${sessionId}',
-            source: 'website-fullpage'
+            source: 'website-embedded'
           },
           webhookConfig: {
             headers: {
@@ -80,9 +82,14 @@ export default function ChatPage() {
     }
   }, [isMounted])
 
+  // Don't render until client-side hydration is complete
+  if (!isMounted) return null
+
   return (
-    <div className="h-[calc(100vh-80px)]">
-      <div ref={chatContainerRef} className="w-full h-full"></div>
+    <div className="chat-widget-container" ref={chatContainerRef}>
+      {/* The n8n chat will be initialized here and will show its own button */}
     </div>
   )
 }
+
+export default N8nChatWidget
