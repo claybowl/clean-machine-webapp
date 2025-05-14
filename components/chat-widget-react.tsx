@@ -27,7 +27,7 @@ const ChatWidget = () => {
     // Add a welcome message when the chat is first opened
     setMessages([
       {
-        text: "Welcome to Clean Machine Tulsa! I'm your virtual concierge. How may I help you today?",
+        text: "Hi! I'm your Clean Machine virtual concierge. How can I help you today?",
         sender: "bot",
         timestamp: new Date().toISOString(),
       },
@@ -70,23 +70,19 @@ const ChatWidget = () => {
     setIsLoading(true)
 
     try {
-      // Send message to n8n chat node
-      const response = await fetch(
-        "https://claydonjon.app.n8n.cloud/webhook/226821eb-fb06-4837-a708-36d2166f5d29/chat",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            text: inputMessage,
-            sessionId: sessionId,
-            // The following properties are expected by the n8n chat node
-            userId: sessionId,
-            channel: "website",
-          }),
+      // Send message to n8n webhook
+      const response = await fetch("https://claydonjon.app.n8n.cloud/webhook/chatbot", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      )
+        body: JSON.stringify({
+          message: inputMessage,
+          sessionId: sessionId,
+          source: "website",
+          timestamp: new Date().toISOString(),
+        }),
+      })
 
       if (!response.ok) {
         throw new Error(`Error: ${response.status}`)
@@ -96,7 +92,7 @@ const ChatWidget = () => {
 
       // Add bot response to chat
       const botMessage = {
-        text: data.text || "I'm sorry, I couldn't process your request. Please try again.",
+        text: data.response || data.message || "I'm processing your request...",
         sender: "bot" as const,
         timestamp: new Date().toISOString(),
       }
@@ -107,7 +103,7 @@ const ChatWidget = () => {
 
       // Add error message to chat
       const errorMessage = {
-        text: "I'm sorry, I'm having trouble connecting to our services. Please try again later or contact us directly at 918-856-5304.",
+        text: "I'm having trouble connecting right now. Please try again or call us at 918-856-5304.",
         sender: "bot" as const,
         timestamp: new Date().toISOString(),
       }
