@@ -18,6 +18,7 @@ const ChatWidget = () => {
   const messageContainerRef = useRef<HTMLDivElement>(null)
   const [sessionId, setSessionId] = useState("")
   const [isMounted, setIsMounted] = useState(false)
+  const [retryCount, setRetryCount] = useState(0)
 
   // Generate a session ID when the component mounts
   useEffect(() => {
@@ -56,6 +57,29 @@ const ChatWidget = () => {
     }
   }
 
+  // Function to get fallback responses for common queries
+  const getFallbackResponse = (message: string): string | null => {
+    const lowerMessage = message.toLowerCase()
+
+    if (lowerMessage.includes("price") || lowerMessage.includes("cost") || lowerMessage.includes("how much")) {
+      return "Our premium detailing packages start at $150 for our basic service. For a full vehicle detail including interior and exterior, prices range from $225-300 depending on vehicle size."
+    }
+
+    if (lowerMessage.includes("appointment") || lowerMessage.includes("schedule") || lowerMessage.includes("book")) {
+      return "I'd be happy to help you schedule an appointment. We currently have availability this week. You can call us at 918-856-5304 or I can take your information here."
+    }
+
+    if (lowerMessage.includes("location") || lowerMessage.includes("address") || lowerMessage.includes("where")) {
+      return "Clean Machine is a mobile detailing service. We come to your location in Tulsa and surrounding areas within a 25-mile radius."
+    }
+
+    if (lowerMessage.includes("service") || lowerMessage.includes("offer") || lowerMessage.includes("do you")) {
+      return "We offer a range of premium detailing services including full interior/exterior details, ceramic coatings, paint correction, headlight restoration, and maintenance packages."
+    }
+
+    return null
+  }
+
   const sendMessage = async () => {
     if (inputMessage.trim() === "") return
 
@@ -66,23 +90,48 @@ const ChatWidget = () => {
       timestamp: new Date().toISOString(),
     }
     setMessages((prev) => [...prev, userMessage])
+
+    const userMessageText = inputMessage.trim()
     setInputMessage("")
     setIsLoading(true)
 
+    // Check for fallback responses first
+    const fallbackResponse = getFallbackResponse(userMessageText)
+    if (fallbackResponse) {
+      // Simulate a delay for a more natural conversation flow
+      setTimeout(() => {
+        const botMessage = {
+          text: fallbackResponse,
+          sender: "bot" as const,
+          timestamp: new Date().toISOString(),
+        }
+        setMessages((prev) => [...prev, botMessage])
+        setIsLoading(false)
+      }, 1000)
+      return
+    }
+
     try {
+      // Create a controller to handle timeout
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 10000) // 10 second timeout
+
       // Send message to n8n webhook
-      const response = await fetch("https://claydonjon.app.n8n.cloud/webhook/chatbot", {
+      const response = await fetch("/api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          message: inputMessage,
+          message: userMessageText,
           sessionId: sessionId,
           source: "website",
           timestamp: new Date().toISOString(),
         }),
+        signal: controller.signal,
       })
+
+      clearTimeout(timeoutId)
 
       if (!response.ok) {
         throw new Error(`Error: ${response.status}`)
@@ -98,17 +147,30 @@ const ChatWidget = () => {
       }
 
       setMessages((prev) => [...prev, botMessage])
+      setRetryCount(0) // Reset retry count on success
     } catch (error) {
       console.error("Error sending message:", error)
 
+      // Increment retry count
+      const newRetryCount = retryCount + 1
+      setRetryCount(newRetryCount)
+
       // Add error message to chat
-      const errorMessage = {
-        text: "I'm having trouble connecting right now. Please try again or call us at 918-856-5304.",
+      let errorMessage = "I'm having trouble connecting right now. Please try again or call us at 918-856-5304."
+
+      // If we've tried multiple times, give a more specific message
+      if (newRetryCount >= 2) {
+        errorMessage =
+          "I'm still having trouble connecting to our systems. For immediate assistance, please call us at 918-856-5304 or email contact@cleanmachinemobile.com."
+      }
+
+      const botMessage = {
+        text: errorMessage,
         sender: "bot" as const,
         timestamp: new Date().toISOString(),
       }
 
-      setMessages((prev) => [...prev, errorMessage])
+      setMessages((prev) => [...prev, botMessage])
     } finally {
       setIsLoading(false)
     }

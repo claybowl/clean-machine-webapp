@@ -7,7 +7,7 @@ export async function POST(request: Request) {
     console.log("Request body:", JSON.stringify(body))
 
     // Check if we have a message in any expected format
-    const userMessage = body.prompt || body.message || body.text || body.content || ""
+    const userMessage = body.message || body.prompt || body.text || body.content || ""
 
     if (!userMessage) {
       console.error("No message content found in request body")
@@ -26,12 +26,12 @@ export async function POST(request: Request) {
     if (userMessage.toLowerCase().includes("service area") || userMessage.toLowerCase().includes("location")) {
       return NextResponse.json({
         response:
-          "Clean Machine serves Tulsa and surrounding areas within a 25-mile radius. May I verify your address to confirm you're within our service area?",
+          "Clean Machine serves Tulsa and surrounding areas within a 25-mile radius. We come to your location for all detailing services.",
       })
     } else if (userMessage.toLowerCase().includes("appointment") || userMessage.toLowerCase().includes("schedule")) {
       return NextResponse.json({
         response:
-          "I'd be happy to help you schedule an appointment. We currently have availability this week on Thursday and Friday. What day works best for you?",
+          "I'd be happy to help you schedule an appointment. We currently have availability this week. You can call us at 918-856-5304 or I can take your information here.",
       })
     } else if (userMessage.toLowerCase().includes("price") || userMessage.toLowerCase().includes("cost")) {
       return NextResponse.json({
@@ -43,27 +43,21 @@ export async function POST(request: Request) {
     // Get the session ID from the request or generate a new one
     const sessionId = body.sessionId || `web_user_${Date.now()}`
 
-    // Format the request according to what n8n expects
-    const webhookPayload = {
-      phoneNumber: sessionId, // This is what n8n uses for session tracking
-      message: userMessage, // Use 'message' instead of 'prompt'
-      history: body.history || [],
-    }
-
-    console.log("Sending to webhook:", JSON.stringify(webhookPayload))
-
-    // Call the webhook with the correct format
     try {
-      const response = await fetch(
-        "https://claydonjon.app.n8n.cloud/webhook/226821eb-fb06-4837-a708-36d2166f5d29/chat",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(webhookPayload),
+      // Try to call the webhook with the provided data
+      const response = await fetch("https://claydonjon.app.n8n.cloud/webhook/chatbot", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      )
+        body: JSON.stringify({
+          message: userMessage,
+          sessionId: sessionId,
+          source: "website",
+          timestamp: new Date().toISOString(),
+        }),
+        signal: AbortSignal.timeout(8000), // 8 second timeout
+      })
 
       if (response.ok) {
         const data = await response.json()
@@ -88,7 +82,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         response:
-          "I apologize, but I'm having trouble processing your request. Please try again or contact us directly.",
+          "I apologize, but I'm having trouble processing your request. Please try again or contact us directly at 918-856-5304.",
         error: "Failed to process your request",
       },
       { status: 500 },

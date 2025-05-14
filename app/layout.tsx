@@ -6,7 +6,7 @@ import "./chat-widget.css"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { ThemeProvider } from "@/components/theme-provider"
-import ChatWidgetReact from "@/components/chat-widget-react"
+import EmbeddedChatWidget from "@/components/embedded-chat-widget"
 
 const playfair = PlayfairDisplay({
   subsets: ["latin"],
@@ -41,7 +41,7 @@ export default function RootLayout({
             <Header />
             <main className="flex-1">{children}</main>
             <Footer />
-            <ChatWidgetReact />
+            <EmbeddedChatWidget />
           </div>
         </ThemeProvider>
       </body>
