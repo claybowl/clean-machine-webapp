@@ -13,15 +13,7 @@ export default function Home() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative h-[600px] md:h-[700px] overflow-hidden">
-        <Image
-          src="/placeholder.svg?height=700&width=1920"
-          alt="Luxury vehicle being detailed"
-          fill
-          priority
-          className="object-cover"
-        />
-        <div className="absolute inset-0 bg-navy-dark/40"></div>
+      <section className="relative h-[600px] md:h-[700px] bg-[#8491A3]">
         <div className="container relative h-full mx-auto flex flex-col justify-center items-center text-center text-ivory z-10 px-4">
           {/* Add a large logo above the heading in the hero section */}
           <div className="mb-8">
@@ -38,12 +30,7 @@ export default function Home() {
             <Button asChild size="lg" className="bg-ivory text-navy-dark hover:bg-ivory/90">
               <Link href="/schedule">Schedule Service</Link>
             </Button>
-            <Button
-              asChild
-              variant="outline"
-              size="lg"
-              className="border-ivory text-ivory bg-navy-dark/40 hover:bg-navy-dark/60"
-            >
+            <Button asChild variant="outline" size="lg" className="border-ivory text-ivory hover:bg-navy-dark/60">
               <Link href="/services">Explore Services</Link>
             </Button>
           </div>
@@ -129,22 +116,22 @@ export default function Home() {
             <ServiceCard
               title="Signature Detail"
               description="Our comprehensive detailing service includes meticulous exterior washing, paint correction, interior cleaning, and protective treatments."
-              imageSrc="/placeholder.svg?height=300&width=400"
+              imageSrc="/images/signature-detail.png"
               href="/services/signature-detail"
             />
 
             <ServiceCard
               title="Maintenance Care"
               description="Regular maintenance detailing to preserve your vehicle's appearance and protect previous treatments between full details."
-              imageSrc="/placeholder.svg?height=300&width=400"
+              imageSrc="/images/maintenance-care.png"
               href="/services/maintenance-care"
             />
 
             <ServiceCard
-              title="Ceramic Coating"
-              description="Professional-grade ceramic coating application providing superior protection and enhanced appearance for up to five years."
-              imageSrc="/placeholder.svg?height=300&width=400"
-              href="/services/ceramic-coating"
+              title="Interior Detail"
+              description="Complete interior rejuvenation with thorough cleaning of all surfaces, steam cleaning of upholstery, and conditioning of leather and trim."
+              imageSrc="/images/interior-detail.png"
+              href="/services/interior-detail"
             />
           </div>
 
@@ -165,8 +152,8 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
             <div>
               <Image
-                src="/placeholder.svg?height=500&width=600"
-                alt="Detailer working on a luxury vehicle"
+                src="/images/detailing-process.png"
+                alt="Professional detailer polishing a luxury vehicle"
                 width={600}
                 height={500}
                 className="rounded-md shadow-elegant"

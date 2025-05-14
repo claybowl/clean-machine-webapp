@@ -59,6 +59,7 @@ const config = {
         burgundy: "#5E1514",
         forest: "#2C4C3B",
         gold: "#BFA36F",
+        "slate-blue": "#8491A3",
       },
       borderRadius: {
         lg: "var(--radius)",
