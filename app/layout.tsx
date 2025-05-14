@@ -2,11 +2,11 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Playfair_Display as PlayfairDisplay, EB_Garamond as EBGaramond } from "next/font/google"
 import "./globals.css"
+import "./chat-widget.css"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { ThemeProvider } from "@/components/theme-provider"
-import ChatWidget from "@/components/chat-widget"
-import WelcomeMessage from "@/components/welcome-message"
+import ChatWidgetReact from "@/components/chat-widget-react"
 
 const playfair = PlayfairDisplay({
   subsets: ["latin"],
@@ -41,8 +41,7 @@ export default function RootLayout({
             <Header />
             <main className="flex-1">{children}</main>
             <Footer />
-            <WelcomeMessage />
-            <ChatWidget />
+            <ChatWidgetReact />
           </div>
         </ThemeProvider>
       </body>
